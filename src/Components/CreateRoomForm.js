@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 class CreateRoomForm extends React.Component {
     constructor(props) {
@@ -24,14 +25,15 @@ class CreateRoomForm extends React.Component {
             loading: true
         });
 
-        let slug = 'abc';
-
-        this.props.webSocket.send(JSON.stringify({
+        let slug = uuidv4();
+        let request = JSON.stringify({
             'command': 'create_room',
             'client_secret': 'abc',
             'slug': slug,
             'name': this.state.name
-        }));
+        });
+        console.log('Sending: ' + request);
+        this.props.webSocket.send(request);
 
         this.props.history.push('/' + slug);
     }
